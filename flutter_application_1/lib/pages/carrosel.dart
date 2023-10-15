@@ -1,6 +1,5 @@
+import 'package:concentric_transition/page_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/pages/slide_tile.dart';
-import 'package:flutter_application_1/login.dart';
 
 class CarouselPage extends StatefulWidget {
   final List<Map<String, dynamic>> _listSlide = [
@@ -15,80 +14,99 @@ class CarouselPage extends StatefulWidget {
   _CarouselPageState createState() => _CarouselPageState();
 }
 
+final pages = [
+  PageData(
+    title: "Search for your favourite food",
+    imagePath: "assets/Imagem1.jpeg",
+    bgColor: Color.fromARGB(185, 19, 199, 19),
+    textColor: Colors.green,
+  ),
+  PageData(
+    title: "Add it to cart",
+    imagePath: "assets/Imagem2.jpeg",
+    bgColor: Color(0xfffab800),
+    textColor: Color(0xff3b1790),
+  ),
+  PageData(
+    title: "Order and wait",
+    imagePath: "assets/Imagem3.jpeg",
+    bgColor: Color(0xffffffff),
+    textColor: Color(0xff3b1790),
+  ),
+];
+
 class _CarouselPageState extends State<CarouselPage> {
-  int _currentPage = 0;
-  final PageController pageController = PageController(viewportFraction: 0.8);
+  @override
+  Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    return Scaffold(
+      body: ConcentricPageView(
+        colors: pages.map((p) => p.bgColor).toList(),
+        radius: screenWidth * 0.1,
+        nextButtonBuilder: (context) => Padding(
+          padding: const EdgeInsets.only(left: 3),
+          child: Icon(
+            Icons.navigate_next,
+            size: screenWidth * 0.08,
+          ),
+        ),
+        itemCount: pages.length + 1,
+        opacityFactor: 2.0,
+        scaleFactor: 2,
+        itemBuilder: (index) {
+          final page = pages[index % pages.length];
+          return SafeArea(
+            child: _Page(page: page),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class PageData {
+  final String title;
+  final String imagePath;
+  final Color bgColor;
+  final Color textColor;
+
+  PageData({
+    required this.title,
+    required this.imagePath,
+    this.bgColor = Colors.white,
+    this.textColor = Colors.black,
+  });
+}
+
+class _Page extends StatelessWidget {
+  final PageData page;
+
+  const _Page({Key? key, required this.page}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.green[200],
-      body: SafeArea(
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              child: PageView.builder(
-                controller: pageController,
-                itemCount: widget._listSlide.length,
-                onPageChanged: (index) {
-                  setState(() {
-                    _currentPage = index;
-                  });
-                },
-                itemBuilder: (context, currentIndex) {
-                  bool activePage = currentIndex == _currentPage;
-                  return Slide_Tile(
-                    activePage: activePage,
-                    image: widget._listSlide[currentIndex]["image"],
-                  );
-                },
-              ),
-            ),
-            _buildBullets(),
-            _buildButtonToLoginPage(),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildBullets() {
-    return Padding(
-      padding: EdgeInsets.all(8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: widget._listSlide.map((slide) {
-          int index = widget._listSlide.indexOf(slide);
-          return Container(
-            width: 10,
-            height: 10,
-            margin: EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30),
-              color: index == _currentPage ? Colors.green : Colors.grey,
-            ),
-          );
-        }).toList(),
-      ),
-    );
-  }
-
-  Widget _buildButtonToLoginPage() {
-    return ElevatedButton(
-      onPressed: () {
-        // Transição para a página de login com animação de desvanecimento (fade)
-        Navigator.of(context).push(
-          PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) {
-              return FadeTransition(
-                opacity: animation,
-                child: LoginView(),
-              );
-            },
+    final screenHeight = MediaQuery.of(context).size.height;
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          padding: const EdgeInsets.all(16.0),
+          margin: const EdgeInsets.all(16.0),
+          child: Image.asset(
+            page.imagePath,
+            height: screenHeight * 0.2, // Ajuste a altura conforme necessário
+            width: screenHeight * 0.2, // Ajuste a largura conforme necessário
           ),
-        );
-      },
-      child: Text('Fazer Login'),
+        ),
+        Text(
+          page.title,
+          style: TextStyle(
+              color: page.textColor,
+              fontSize: screenHeight * 0.035,
+              fontWeight: FontWeight.bold),
+          textAlign: TextAlign.center,
+        ),
+      ],
     );
   }
 }

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "698721314219",
+    "project_id": "dcge-a2469",
+    "storage_bucket": "dcge-a2469.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:698721314219:android:a247def209b5af78a0deee",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQqNRNKe7oc1-H7fpYZFv0VZTENKT72wM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
