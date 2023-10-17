@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/loginteste.dart';
 import 'package:flutter_application_1/pages/Aparelho.dart';
+import 'package:flutter_application_1/pages/Auth.dart';
 import 'package:flutter_application_1/pages/cadastro.dart';
 import 'package:flutter_application_1/pages/comodos.dart';
 import 'package:flutter_application_1/pages/login.dart';
@@ -58,6 +59,7 @@ class MyApp extends StatelessWidget {
         "comodos": (context) => HomeScreen(),
         "loginTeste": (context) => LoginTeste(),
         "aparelhos": (context) => AparelhoForm(),
+        "Auth":(context) => SignInPage2(), 
       },
     );
   }
@@ -74,10 +76,10 @@ class RoteadorTela extends StatelessWidget {
           if (snapshot.hasData) {
             print("VAMOO PRA HOMEPAGE");
 
-            return CarouselPage(); //HomePage();
+            return HomePage(); //HomePage();
           } else {
             print("VAMO PRO CARROSEL");
-            return LoginView();
+            return  SignInPage2();
           }
         });
   }

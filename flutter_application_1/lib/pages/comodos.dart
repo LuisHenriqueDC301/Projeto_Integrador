@@ -1,8 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/models/dbhelper.dart';
+import 'package:flutter_application_1/models/models.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+  var newCom = ComodosEletronicos(nome: "Sala", id_eletronico: 0, nomeComodo: '', consumo: 75,);
+  DBHelper.getInstance().then((value) => value.salvarComodos(newCom));
+
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Adicione cômodos à sua casa'),
@@ -14,35 +25,35 @@ class HomeScreen extends StatelessWidget {
           children: [
             ComodoListItem(
               nome: 'Sala',
-              equipamentos: 5,
+              equipamentos: comodosEquipamentos["Sala"]!.length,
               consumo: '300W',
               valorConsumo: '\$0.30',
               icone: Icons.tv,
             ),
             ComodoListItem(
               nome: 'Quarto',
-              equipamentos: 3,
+              equipamentos: comodosEquipamentos['Quarto']!.length,
               consumo: '150W',
               valorConsumo: '\$0.15',
               icone: Icons.bed,
             ),
             ComodoListItem(
               nome: 'Lavanderia',
-              equipamentos: 2,
+              equipamentos: comodosEquipamentos['Lavanderia']!.length,
               consumo: '100W',
               valorConsumo: '\$0.10',
               icone: Icons.local_laundry_service,
             ),
             ComodoListItem(
               nome: 'Cozinha',
-              equipamentos: 4,
+              equipamentos: comodosEquipamentos['Cozinha']!.length,
               consumo: '200W',
               valorConsumo: '\$0.20',
               icone: Icons.kitchen,
             ),
             ComodoListItem(
               nome: 'Banheiro',
-              equipamentos: 2,
+              equipamentos: comodosEquipamentos['Banheiro']!.length,
               consumo: '75W',
               valorConsumo: '\$0.07',
               icone: Icons.bathtub,
@@ -61,8 +72,16 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
+ 
+Map<String, List<String>> comodosEquipamentos = {
+  'Sala': [],
+  'Quarto': [],
+  'Lavanderia': [],
+  'Cozinha': [],
+  'Banheiro': [],
+};
 
-class ComodoListItem extends StatelessWidget {
+class ComodoListItem extends StatefulWidget {
   final String nome;
   final int equipamentos;
   final String consumo;
@@ -78,15 +97,40 @@ class ComodoListItem extends StatelessWidget {
   });
 
   @override
+  State<ComodoListItem> createState() => _ComodoListItemState();
+}
+
+class _ComodoListItemState extends State<ComodoListItem> {
+  late List<ComodosEletronicos> comodos;
+  bool _loading = true;
+  @override
+  void initState() {
+
+    super.initState();
+    _carregarBD();
+  }
+
+  void _carregarBD() {
+    setState(() {
+      _loading = true;
+    });
+    DBHelper.getInstance().then(
+      (value) => value.getAllComodos()
+        .then((value) => {
+          setState(() => comodos = value)
+        })
+        .whenComplete(() => _loading = false));
+  }
+  @override
   Widget build(BuildContext context) {
     return Card(
       margin: EdgeInsets.all(8.0),
       color: Colors.white,
       child: ListTile(
         contentPadding: EdgeInsets.all(16.0),
-        leading: Icon(icone, color: Colors.black, size: 40.0),
+        leading: Icon(widget.icone, color: Colors.black, size: 40.0),
         title: Text(
-          nome,
+          widget.nome,
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 20.0,
@@ -97,15 +141,15 @@ class ComodoListItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Equipamentos: $equipamentos',
+              'Equipamentos: ${widget.equipamentos}',
               style: TextStyle(fontSize: 16.0, color: Colors.black),
             ),
             Text(
-              'Consumo: $consumo',
+              'Consumo: ${widget.consumo}',
               style: TextStyle(fontSize: 16.0, color: Colors.black),
             ),
             Text(
-              'Valor do Consumo: $valorConsumo',
+              'Valor do Consumo: ${widget.valorConsumo}',
               style: TextStyle(fontSize: 16.0, color: Colors.black),
             ),
           ],
@@ -113,9 +157,11 @@ class ComodoListItem extends StatelessWidget {
         onTap: () {
           Navigator.pushNamed(
             context,
-            "aparelhos",
+            "aparelhos", arguments: widget.nome
           );
-          print('Cômodo: $nome');
+          _carregarBD();
+          print(comodos);
+          print('Cômodo: ${widget.nome}');
         },
       ),
     );

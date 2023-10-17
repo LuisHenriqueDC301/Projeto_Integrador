@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_application_1/models/dbhelper.dart';
+import 'package:flutter_application_1/models/models.dart';
 
 class AparelhoForm extends StatefulWidget {
   @override
@@ -9,6 +11,8 @@ class AparelhoForm extends StatefulWidget {
 class _AparelhoFormState extends State<AparelhoForm> {
   Widget build(BuildContext context) {
     final bool isSmallScreen = MediaQuery.of(context).size.width < 600;
+
+
 
     return Scaffold(
       backgroundColor: Colors.green[100],
@@ -44,6 +48,11 @@ class _FormContent extends StatefulWidget {
 }
 
 class __FormContentState extends State<_FormContent> {
+     TextEditingController nomeController = TextEditingController();
+  TextEditingController quantidadeController = TextEditingController();
+  TextEditingController tempoUsoController = TextEditingController();
+  TextEditingController potenciaController = TextEditingController();
+  TextEditingController diasUsoController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String selectedTimeUnit = 'Horas por dia';
 
@@ -51,6 +60,8 @@ class __FormContentState extends State<_FormContent> {
 
   @override
   Widget build(BuildContext context) {
+      String nome = ModalRoute.of(context)?.settings.arguments as String;
+
     return SingleChildScrollView(
       reverse: false,
       child: Container(
@@ -84,6 +95,7 @@ class __FormContentState extends State<_FormContent> {
                   ),
                 ),
                 TextFormField(
+                  controller: nomeController,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Por favor, insira o nome do aparelho';
@@ -105,6 +117,7 @@ class __FormContentState extends State<_FormContent> {
                   ),
                 ),
                 TextFormField(
+                  controller: quantidadeController,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Por favor, insira a quantidade';
@@ -127,6 +140,7 @@ class __FormContentState extends State<_FormContent> {
                   ),
                 ),
                 TextFormField(
+                  controller: tempoUsoController,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Por favor, insira o tempo de uso';
@@ -152,6 +166,7 @@ class __FormContentState extends State<_FormContent> {
                   children: [
                     Expanded(
                       child: TextFormField(
+                        controller: diasUsoController,
                         inputFormatters: [_numberInputFormatter],
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -225,7 +240,9 @@ class __FormContentState extends State<_FormContent> {
                     ),
                     onPressed: () {
                       if (_formKey.currentState?.validate() ?? false) {
-                        // Faça algo
+                        var newEle = Eletronicos(nome: nomeController.text, potencia: potenciaController.text as int,);
+                        DBHelper.getInstance().then((value) => value.salvareletronicos(newEle, nome, diasUsoController.text as int));
+                        
                       }
                     },
                   ),

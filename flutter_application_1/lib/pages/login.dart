@@ -79,11 +79,9 @@ class _LoginViewState extends State<LoginView> {
     setState(() {
       isLogin = acao;
       if (isLogin) {
-        titulo = 'Bem vindo';
         actionButton = 'Login';
         toggleButton = 'Não tem Login? Registrar';
       } else {
-        titulo = 'Crie sua conta';
         actionButton = 'Cadastrar';
         toggleButton = 'Já tem conta? Logar';
       }
