@@ -5,12 +5,18 @@ class Eletronicos {
 
   Eletronicos({this.id = 0, required this.nome, required this.potencia});
 }
-class ComodosEletronicos{
+
+class ComodosEletronicos {
   int id;
   String nome;
-  int id_eletronico;
-  String nomeComodo;
-  int consumo;
 
-  ComodosEletronicos({this.id = 0, required this.nome, required this.id_eletronico, required this.nomeComodo, required this.consumo });
+  ComodosEletronicos({this.id = 0, required this.nome});
+}
+
+class ComodoEletronico {
+  int id;
+  int comodoId;
+  int eletronicoId;
+
+  ComodoEletronico({this.id = 0, required this.comodoId, required this.eletronicoId});
 }

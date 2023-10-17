@@ -5,13 +5,13 @@ import 'package:flutter_application_1/models/models.dart';
 class HomeScreen extends StatefulWidget {
   @override
   State<HomeScreen> createState() => _HomeScreenState();
+
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late List<ComodosEletronicos> comodos;
   @override
   Widget build(BuildContext context) {
-  var newCom = ComodosEletronicos(nome: "Sala", id_eletronico: 0, nomeComodo: '', consumo: 75,);
-  DBHelper.getInstance().then((value) => value.salvarComodos(newCom));
 
 
     return Scaffold(
@@ -96,12 +96,15 @@ class ComodoListItem extends StatefulWidget {
     required this.icone,
   });
 
+
   @override
   State<ComodoListItem> createState() => _ComodoListItemState();
+  
 }
 
 class _ComodoListItemState extends State<ComodoListItem> {
-  late List<ComodosEletronicos> comodos;
+    List<ComodosEletronicos> comodos = [];
+
   bool _loading = true;
   @override
   void initState() {
@@ -155,10 +158,11 @@ class _ComodoListItemState extends State<ComodoListItem> {
           ],
         ),
         onTap: () {
-          Navigator.pushNamed(
+        /*  Navigator.pushNamed(
             context,
             "aparelhos", arguments: widget.nome
           );
+         */ 
           _carregarBD();
           print(comodos);
           print('Cômodo: ${widget.nome}');
