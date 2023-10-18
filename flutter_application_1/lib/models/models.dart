@@ -4,9 +4,13 @@ class Eletronicos {
   int potencia;
   int tempoUso;
   int diasUso;
-  int quantidade;
-
-  Eletronicos({this.id = 0, required this.nome, required this.potencia, required this.tempoUso, required this.diasUso, required this.quantidade});
+  Eletronicos({
+    this.id = 0,
+    required this.nome,
+    required this.potencia,
+    required this.tempoUso,
+    required this.diasUso,
+  });
 }
 
 class ComodosEletronicos {
@@ -21,5 +25,6 @@ class ComodoEletronico {
   int comodoId;
   int eletronicoId;
 
-  ComodoEletronico({this.id = 0, required this.comodoId, required this.eletronicoId});
+  ComodoEletronico(
+      {this.id = 0, required this.comodoId, required this.eletronicoId});
 }

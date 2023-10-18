@@ -67,7 +67,7 @@ class MyApp extends StatelessWidget {
         "comodos": (context) => HomeScreen(),
         "loginTeste": (context) => LoginTeste(),
         "aparelhos": (context) => AparelhoForm(),
-        "Auth":(context) => SignInPage2(), 
+        "Auth": (context) => SignInPage2(),
       },
     );
   }
@@ -87,7 +87,7 @@ class RoteadorTela extends StatelessWidget {
             return HomePage(); //HomePage();
           } else {
             print("VAMO PRO CARROSEL");
-            return  SignInPage2();
+            return SignInPage2();
           }
         });
   }

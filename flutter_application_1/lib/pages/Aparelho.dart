@@ -13,7 +13,7 @@ class _AparelhoFormState extends State<AparelhoForm> {
     final bool isSmallScreen = MediaQuery.of(context).size.width < 600;
 
     return Scaffold(
-      backgroundColor: Colors.green[100],
+      backgroundColor: Colors.green[300],
       body: Center(
         child: isSmallScreen
             ? Column(
@@ -47,7 +47,6 @@ class _FormContent extends StatefulWidget {
 
 class __FormContentState extends State<_FormContent> {
   TextEditingController nomeController = TextEditingController();
-  TextEditingController quantidadeController = TextEditingController();
   TextEditingController tempoUsoController = TextEditingController();
   TextEditingController potenciaController = TextEditingController();
   TextEditingController diasUsoController = TextEditingController();
@@ -66,7 +65,7 @@ class __FormContentState extends State<_FormContent> {
       reverse: false,
       child: Container(
         width: 350,
-        height: 550,
+        height: 450,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20.0),
@@ -111,30 +110,6 @@ class __FormContentState extends State<_FormContent> {
                 ),
                 _gap(),
                 Text(
-                  "Quantidade:",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
-                ),
-                TextFormField(
-                  controller: quantidadeController,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Por favor, insira a quantidade';
-                    }
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                    labelText: 'Ex 1',
-                    hintText: 'Insira a quantidade',
-                    prefixIcon: Icon(Icons.format_list_numbered),
-                    border: OutlineInputBorder(),
-                  ),
-                  inputFormatters: [_numberInputFormatter],
-                ),
-                _gap(),
-                Text(
                   "Tempo de Uso:",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
@@ -154,6 +129,33 @@ class __FormContentState extends State<_FormContent> {
                     hintText: 'Insira o tempo de uso',
                     prefixIcon: Icon(Icons.access_time),
                     border: OutlineInputBorder(),
+                    suffixIcon: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: DropdownButton<String>(
+                        style: TextStyle(
+                          color: Colors.black, // Cor do texto selecionado
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        underline: Container(
+                          height: 2,
+                          color: Colors.green, // Cor da linha abaixo do botão
+                        ),
+                        value: selectedTimeUnit,
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            selectedTimeUnit = newValue!;
+                          });
+                        },
+                        items: <String>['Horas por dia', 'Minutos por dia']
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ),
+                    ),
                   ),
                   inputFormatters: [_numberInputFormatter],
                 ),
@@ -182,26 +184,6 @@ class __FormContentState extends State<_FormContent> {
                           hintText: 'Insira a potência',
                           prefixIcon: Icon(Icons.flash_on),
                           border: OutlineInputBorder(),
-                          suffixIcon: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: DropdownButton<String>(
-                              value: selectedTimeUnit,
-                              onChanged: (String? newValue) {
-                                setState(() {
-                                  selectedTimeUnit = newValue!;
-                                });
-                              },
-                              items: <String>[
-                                'Horas por dia',
-                                'Minutos por dia'
-                              ].map<DropdownMenuItem<String>>((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value),
-                                );
-                              }).toList(),
-                            ),
-                          ),
                         ),
                       ),
                     ),
@@ -252,10 +234,9 @@ class __FormContentState extends State<_FormContent> {
                             potencia: int.parse(potenciaController.text),
                             tempoUso: int.parse(tempoUsoController.text),
                             diasUso: int.parse(diasUsoController.text),
-                            quantidade: int.parse(quantidadeController.text),
                           ));
                         });
-                       Navigator.pushNamed(context, "comodos");
+                        Navigator.pushNamed(context, "comodos");
                       }
                     },
                   ),
