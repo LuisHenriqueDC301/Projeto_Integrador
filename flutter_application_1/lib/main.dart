@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/loginteste.dart';
+import 'package:flutter_application_1/models/models.dart';
 import 'package:flutter_application_1/pages/Aparelho.dart';
 import 'package:flutter_application_1/pages/Auth.dart';
 import 'package:flutter_application_1/pages/cadastro.dart';
@@ -18,6 +19,13 @@ import 'package:provider/provider.dart';
 
 // Variável global
 var initialroute = "";
+Map<String, List<Eletronicos>> eletronicosPorComodo = {
+  "Sala": [],
+  "Quarto": [],
+  "Lavanderia": [],
+  "Cozinha": [],
+  "Banheiro": [],
+};
 
 void main() async {
   if (kIsWeb) {

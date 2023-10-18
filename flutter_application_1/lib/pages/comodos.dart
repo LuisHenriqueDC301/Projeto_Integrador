@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/main.dart';
 import 'package:flutter_application_1/models/dbhelper.dart';
 import 'package:flutter_application_1/models/models.dart';
+
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -9,7 +11,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late List<ComodosEletronicos> comodos;
+   bool _loading = true;
+  late List<Eletronicos> eletronicos = [];
+
+
   @override
   Widget build(BuildContext context) {
 
@@ -25,35 +30,35 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             ComodoListItem(
               nome: 'Sala',
-              equipamentos: comodosEquipamentos["Sala"]!.length,
+              equipamentos: eletronicosPorComodo["Sala"]!.length,
               consumo: '300W',
               valorConsumo: '\$0.30',
               icone: Icons.tv,
             ),
             ComodoListItem(
               nome: 'Quarto',
-              equipamentos: comodosEquipamentos['Quarto']!.length,
+              equipamentos: eletronicosPorComodo['Quarto']!.length,
               consumo: '150W',
               valorConsumo: '\$0.15',
               icone: Icons.bed,
             ),
             ComodoListItem(
               nome: 'Lavanderia',
-              equipamentos: comodosEquipamentos['Lavanderia']!.length,
+              equipamentos: eletronicosPorComodo['Lavanderia']!.length,
               consumo: '100W',
               valorConsumo: '\$0.10',
               icone: Icons.local_laundry_service,
             ),
             ComodoListItem(
               nome: 'Cozinha',
-              equipamentos: comodosEquipamentos['Cozinha']!.length,
+              equipamentos: eletronicosPorComodo['Cozinha']!.length,
               consumo: '200W',
               valorConsumo: '\$0.20',
               icone: Icons.kitchen,
             ),
             ComodoListItem(
               nome: 'Banheiro',
-              equipamentos: comodosEquipamentos['Banheiro']!.length,
+              equipamentos: eletronicosPorComodo['Banheiro']!.length,
               consumo: '75W',
               valorConsumo: '\$0.07',
               icone: Icons.bathtub,
@@ -63,8 +68,9 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          
           // Aqui você pode adicionar a lógica para adicionar um novo cômodo
-          print('Adicionar cômodo');
+          
         },
         child: Icon(Icons.add),
         backgroundColor: Colors.green,
@@ -104,26 +110,11 @@ class ComodoListItem extends StatefulWidget {
 
 class _ComodoListItemState extends State<ComodoListItem> {
     List<ComodosEletronicos> comodos = [];
-
+  
   bool _loading = true;
-  @override
-  void initState() {
+  
 
-    super.initState();
-    _carregarBD();
-  }
 
-  void _carregarBD() {
-    setState(() {
-      _loading = true;
-    });
-    DBHelper.getInstance().then(
-      (value) => value.getAllComodos()
-        .then((value) => {
-          setState(() => comodos = value)
-        })
-        .whenComplete(() => _loading = false));
-  }
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -158,12 +149,11 @@ class _ComodoListItemState extends State<ComodoListItem> {
           ],
         ),
         onTap: () {
-        /*  Navigator.pushNamed(
+          Navigator.pushNamed(
             context,
             "aparelhos", arguments: widget.nome
           );
-         */ 
-          _carregarBD();
+         
           print(comodos);
           print('Cômodo: ${widget.nome}');
         },

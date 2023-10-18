@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_application_1/models/dbhelper.dart';
+import 'package:flutter_application_1/main.dart';
 import 'package:flutter_application_1/models/models.dart';
 
 class AparelhoForm extends StatefulWidget {
@@ -11,8 +11,6 @@ class AparelhoForm extends StatefulWidget {
 class _AparelhoFormState extends State<AparelhoForm> {
   Widget build(BuildContext context) {
     final bool isSmallScreen = MediaQuery.of(context).size.width < 600;
-
-
 
     return Scaffold(
       backgroundColor: Colors.green[100],
@@ -48,7 +46,7 @@ class _FormContent extends StatefulWidget {
 }
 
 class __FormContentState extends State<_FormContent> {
-     TextEditingController nomeController = TextEditingController();
+  TextEditingController nomeController = TextEditingController();
   TextEditingController quantidadeController = TextEditingController();
   TextEditingController tempoUsoController = TextEditingController();
   TextEditingController potenciaController = TextEditingController();
@@ -60,7 +58,9 @@ class __FormContentState extends State<_FormContent> {
 
   @override
   Widget build(BuildContext context) {
-      String nome = ModalRoute.of(context)?.settings.arguments as String;
+    String nome = ModalRoute.of(context)?.settings.arguments as String;
+    print(nome);
+    List<Eletronicos>? lista = eletronicosPorComodo[nome];
 
     return SingleChildScrollView(
       reverse: false,
@@ -100,6 +100,7 @@ class __FormContentState extends State<_FormContent> {
                     if (value == null || value.isEmpty) {
                       return 'Por favor, insira o nome do aparelho';
                     }
+                    return null;
                   },
                   decoration: const InputDecoration(
                     labelText: 'Ex: Televisão',
@@ -122,6 +123,7 @@ class __FormContentState extends State<_FormContent> {
                     if (value == null || value.isEmpty) {
                       return 'Por favor, insira a quantidade';
                     }
+                    return null;
                   },
                   decoration: InputDecoration(
                     labelText: 'Ex 1',
@@ -145,6 +147,7 @@ class __FormContentState extends State<_FormContent> {
                     if (value == null || value.isEmpty) {
                       return 'Por favor, insira o tempo de uso';
                     }
+                    return null;
                   },
                   decoration: InputDecoration(
                     labelText: 'Ex 8',
@@ -166,12 +169,13 @@ class __FormContentState extends State<_FormContent> {
                   children: [
                     Expanded(
                       child: TextFormField(
-                        controller: diasUsoController,
+                        controller: potenciaController,
                         inputFormatters: [_numberInputFormatter],
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Por favor, insira a potência';
                           }
+                          return null;
                         },
                         decoration: InputDecoration(
                           labelText: 'Ex 220W',
@@ -205,15 +209,17 @@ class __FormContentState extends State<_FormContent> {
                 ),
                 _gap(),
                 TextFormField(
+                  controller: diasUsoController,
                   inputFormatters: [_numberInputFormatter],
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Por favor, insira outra informação';
                     }
+                    return null;
                   },
                   decoration: InputDecoration(
                     labelText: 'Dias de Uso por Mês',
-                    hintText: ' Dias de Uso por Mês',
+                    hintText: 'Dias de Uso por Mês',
                     prefixIcon: Icon(Icons.info),
                     border: OutlineInputBorder(),
                   ),
@@ -239,10 +245,17 @@ class __FormContentState extends State<_FormContent> {
                       ),
                     ),
                     onPressed: () {
-                      if (_formKey.currentState?.validate() ?? false) {
-                        var newEle = Eletronicos(nome: nomeController.text, potencia: potenciaController.text as int,);
-                        DBHelper.getInstance().then((value) => value.salvareletronicos(newEle, nome, diasUsoController.text as int));
-                        
+                      if (_formKey.currentState!.validate()) {
+                        setState(() {
+                          lista?.add(Eletronicos(
+                            nome: nomeController.text,
+                            potencia: int.parse(potenciaController.text),
+                            tempoUso: int.parse(tempoUsoController.text),
+                            diasUso: int.parse(diasUsoController.text),
+                            quantidade: int.parse(quantidadeController.text),
+                          ));
+                        });
+                       Navigator.pushNamed(context, "comodos");
                       }
                     },
                   ),

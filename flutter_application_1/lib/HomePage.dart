@@ -26,6 +26,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Tela Inicial"),
@@ -37,7 +38,7 @@ class _HomePageState extends State<HomePage> {
             ListTile(
               leading: Icon(Icons.logout, color: Colors.red),
               title: Text(
-                "Logout",
+                "Sair",
                 style: TextStyle(color: Colors.red),
               ),
               onTap: () {
@@ -60,7 +61,7 @@ class _HomePageState extends State<HomePage> {
                   child: Text(
                     "Seja bem-vindo(a) ao DCGE! Vamos começar?",
                     style: GoogleFonts.openSans(
-                      fontSize: screenWidth < 600 ? 24 : 36,
+                      fontSize: screenWidth < 600 ? 28 : 40,
                       fontWeight: FontWeight.bold,
                       color: Colors.green,
                     ),
@@ -68,14 +69,14 @@ class _HomePageState extends State<HomePage> {
                 ),
                 SizedBox(height: 30),
                 buildInputField(
-                  "Qual valor você gostaria de pagar em sua conta de energia?",
+                  "Qual o valor que você deseja pagar na conta de energia?",
                   Icons.attach_money,
                   valorController,
                   TextInputType.number,
                 ),
                 SizedBox(height: 20),
                 buildInputField(
-                  "Qual o valor do consumo em kWh da sua última conta de energia?",
+                  "Qual o consumo em kWh da sua última conta de energia?",
                   Icons.electric_bolt,
                   consumoController,
                   TextInputType.number,
@@ -96,16 +97,15 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           if (_formKey.currentState?.validate() == true) {
-            // O formulário é válido, permita a transição para a próxima página
+            // Se o formulário for válido, permitir a transição para a próxima página
             Navigator.pushNamed(context, "comodos");
           } else {
-            // O formulário é inválido, não permita a transição
-            // ou exiba uma mensagem de erro ao usuário, se desejar.
+            // Se o formulário for inválido, você pode exibir uma mensagem de erro.
           }
         },
         backgroundColor: Colors.green,
         child: Icon(
-          Icons.play_arrow,
+          Icons.arrow_forward,
           color: Colors.white,
         ),
       ),
@@ -125,16 +125,16 @@ class _HomePageState extends State<HomePage> {
         Text(
           label,
           style: TextStyle(
-            fontSize: 18,
+            fontSize: 20,
             color: Colors.black,
             fontWeight: FontWeight.bold,
           ),
         ),
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           decoration: BoxDecoration(
             color: Colors.blueGrey[100],
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(10),
           ),
           child: TextFormField(
             controller: controller,
@@ -145,22 +145,9 @@ class _HomePageState extends State<HomePage> {
               border: InputBorder.none,
               icon: Icon(icon, color: Colors.green),
             ),
-            validator: (value) {
-              if (value!.isEmpty) {
-                return 'Digite um valor válido';
-              }
-              return null;
-            },
           ),
         ),
         // Exibe mensagem de erro
-        Text(
-          _formKey.currentState?.validate() == true ? '' : 'Campo obrigatório',
-          style: TextStyle(
-            color: Colors.red,
-            fontSize: 12,
-          ),
-        ),
       ],
     );
   }
