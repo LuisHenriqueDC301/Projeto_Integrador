@@ -7,8 +7,8 @@ import 'package:flutter_application_1/pages/Aparelho.dart';
 import 'package:flutter_application_1/pages/Auth.dart';
 import 'package:flutter_application_1/pages/cadastro.dart';
 import 'package:flutter_application_1/pages/comodos.dart';
+import 'package:flutter_application_1/pages/crud_eletronicos.dart';
 import 'package:flutter_application_1/pages/login.dart';
-import 'package:flutter_application_1/pages/carrosel.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_application_1/services/auth_service.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
@@ -59,7 +59,6 @@ class MyApp extends StatelessWidget {
       */
 
       routes: {
-        "Carrosel": (context) => CarouselPage(),
         "login": (context) => LoginView(),
         "cadastro": (context) => RegistroView(),
         'roteadorTela': (context) => RoteadorTela(),
@@ -68,6 +67,7 @@ class MyApp extends StatelessWidget {
         "loginTeste": (context) => LoginTeste(),
         "aparelhos": (context) => AparelhoForm(),
         "Auth": (context) => SignInPage2(),
+        "crud_eletro": (context) => CrudEletronicos()
       },
     );
   }

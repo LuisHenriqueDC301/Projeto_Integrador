@@ -52,43 +52,43 @@ class _HomeScreenState extends State<HomeScreen> {
               nome: 'Sala',
               equipamentos: eletronicosPorComodo["Sala"]!.length,
               consumo: calcularConsumo("Sala").toStringAsFixed(0),
-              valorConsumo: calcularValorConsumo(calcularConsumo("Sala"), 0.656)
-                  .toStringAsFixed(2),
+              valorConsumo: calcularValorConsumo(calcularConsumo("Sala"), 0.656).toStringAsFixed(2),
               icone: Icons.tv,
             ),
             ComodoListItem(
               nome: 'Quarto',
               equipamentos: eletronicosPorComodo['Quarto']!.length,
-              consumo: '150W',
-              valorConsumo: '\$0.15',
+              consumo: calcularConsumo("Quarto").toStringAsFixed(0),
+              valorConsumo: calcularValorConsumo(calcularConsumo("Quarto"), 0.656).toStringAsFixed(2),
               icone: Icons.bed,
             ),
             ComodoListItem(
               nome: 'Lavanderia',
               equipamentos: eletronicosPorComodo['Lavanderia']!.length,
-              consumo: '100W',
-              valorConsumo: '\$0.10',
+              consumo: calcularConsumo("Lavanderia").toStringAsFixed(0),
+              valorConsumo: calcularValorConsumo(calcularConsumo("Lavanderia"), 0.656).toStringAsFixed(2),
               icone: Icons.local_laundry_service,
             ),
             ComodoListItem(
               nome: 'Cozinha',
               equipamentos: eletronicosPorComodo['Cozinha']!.length,
-              consumo: '200W',
-              valorConsumo: '\$0.20',
+              consumo: calcularConsumo("Cozinha").toStringAsFixed(0),
+              valorConsumo: calcularValorConsumo(calcularConsumo("Cozinha"), 0.656).toStringAsFixed(2),
               icone: Icons.kitchen,
             ),
             ComodoListItem(
               nome: 'Banheiro',
               equipamentos: eletronicosPorComodo['Banheiro']!.length,
-              consumo: '75W',
-              valorConsumo: '\$0.07',
+              consumo: calcularConsumo("Banheiro").toStringAsFixed(0),
+              valorConsumo:  calcularValorConsumo(calcularConsumo("Banheiro"), 0.656).toStringAsFixed(2),
               icone: Icons.bathtub,
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
+        onPressed: () async {
+          //await Navigator.pushNamed(context, "crud_eletro",arguments: widget.nome);
           // Aqui você pode adicionar a lógica para adicionar um novo cômodo
         },
         child: Icon(Icons.add),
@@ -164,7 +164,7 @@ class _ComodoListItemState extends State<ComodoListItem> {
           ],
         ),
         onTap: () {
-          Navigator.pushNamed(context, "aparelhos", arguments: widget.nome);
+          Navigator.pushNamed(context, "crud_eletro", arguments: widget.nome);
 
           print(comodos);
           print('Cômodo: ${widget.nome}');

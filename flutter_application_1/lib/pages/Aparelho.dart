@@ -236,7 +236,7 @@ class __FormContentState extends State<_FormContent> {
                             diasUso: int.parse(diasUsoController.text),
                           ));
                         });
-                        Navigator.pushNamed(context, "comodos");
+                        Navigator.pushNamed(context, "comodos" );
                       }
                     },
                   ),

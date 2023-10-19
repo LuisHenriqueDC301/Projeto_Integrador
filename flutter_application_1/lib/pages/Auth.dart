@@ -84,7 +84,7 @@ class __FormContentState extends State<_FormContent> {
   TextEditingController nomeController = TextEditingController();
   late String titulo;
   late String actionButton;
-  late String toggleButton;  
+  String  toggleButton = "";  
   final _formKey = GlobalKey<FormState>();
   bool isLogin = true;
   bool loading = false;
@@ -263,10 +263,10 @@ class __FormContentState extends State<_FormContent> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(4)),
                     ),
-                    child: const Padding(
+                    child:  Padding(
                       padding: EdgeInsets.all(10.0),
                       child: Text(
-                        "Login",
+                        actionButton,
                         style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -286,10 +286,10 @@ class __FormContentState extends State<_FormContent> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(4)),
                     ),
-                    child: const Padding(
+                    child:  Padding(
                       padding: EdgeInsets.all(10.0),
                       child: Text(
-                        'Cadastrar',
+                        toggleButton,
                         style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                     ),
